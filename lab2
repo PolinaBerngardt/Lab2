@@ -1,0 +1,315 @@
+#include "pch.h"
+#include <iostream>;
+#include <cmath>;
+#include <gtest/gtest.h>;
+# define M_PI 3.14159265358979323846
+using namespace std;
+
+double sin_of_sum(double a, double b) {
+	return sin(a) * cos(b) + cos(a) * sin(b);
+}
+
+double sin_of_difference(double a, double b) {
+	return sin(a) * cos(b) - cos(a) * sin(b);
+}
+
+double identity_cos(double a) {
+	return sqrt(1 - pow(sin(a), 2));
+}
+
+double identity_sin(double a) {
+	return sqrt(1 - pow(cos(a), 2));
+}
+
+double cos_of_sum(double a, double b) {
+	return cos(a) * cos(b) - sin(a) * sin(b);
+}
+
+double radius(double x, double y) {
+	return sqrt(pow(x,2)+pow(y,2));
+}
+
+double cos_of_difference(double a, double b) {
+	return cos(a) * cos(b) + sin(a) * sin(b);
+}
+
+double circumference(double R) {
+	return M_PI * 2 * R;
+}
+
+double area_of_circle(double R) {
+	return pow(R, 2) * M_PI;
+}
+
+double area_of_segment(double horda, double heigh1) {
+	return (pow(pow(horda, 2) + 4 * pow(heigh1, 2) / (8 * heigh1), 2)) / 2;
+}
+
+double area_of_triangle(double height, double side_1) {
+	return 0.5 * side_1 * height;
+}
+
+double area_of_rectangle(double side_a, double side_b) {
+	return side_a * side_b;
+}
+
+double diagonal(double side_a, double side_b) {
+	return sqrt(pow(side_a, 2) + pow(side_b, 2));
+}
+
+double mediana(double side_1, double side_2, double side_3) {
+	return 0.5 * sqrt(2 * pow(side_2, 2) + 2 * pow(side_3, 2) - pow(side_1, 2));
+}
+
+double height_triangle(double side_1, double side_2, double r) {
+	return (side_1 * side_2) / (2 * r);
+}
+
+
+
+
+
+
+TEST(area_of_circle_test, PositiveValues) {
+	EXPECT_DOUBLE_EQ(0, area_of_circle(0));
+	EXPECT_DOUBLE_EQ(3.1415926535897931, area_of_circle(1));
+	EXPECT_DOUBLE_EQ(12.566370614359172, area_of_circle(2));
+}
+
+TEST(radius_test, PositiveValues) {
+	EXPECT_EQ(5, radius(3, 4));
+	EXPECT_EQ(1, radius(0,1));
+}
+
+TEST(area_of_triangle_test, PositiveValues) {
+	EXPECT_EQ(15, area_of_triangle(5, 6));
+	EXPECT_EQ(0, area_of_triangle(4, 0));
+}
+
+TEST(area_of_rectangle_test, PositiveValues) {
+	EXPECT_EQ(35, area_of_rectangle(5, 7));
+	EXPECT_EQ(2, area_of_rectangle(1, 2));
+}
+
+TEST(diagonal_test, PositiveValues) {
+	EXPECT_DOUBLE_EQ(5, diagonal(3, 4));
+	EXPECT_DOUBLE_EQ(13, diagonal(5, 12));
+}
+
+TEST(mediana_test, PositiveValues) {
+	EXPECT_EQ(2.5, mediana(1, 2, 3));
+}
+
+TEST(height_triangle_test, PositiveValues) {
+	EXPECT_EQ(1, height_triangle(1, 2, 1));
+	EXPECT_EQ(1.5, height_triangle(6, 2, 4));
+}
+
+TEST(identity_cos_test, PositiveValues) {
+	EXPECT_DOUBLE_EQ(0.54030230586813977, identity_cos(1));
+	EXPECT_DOUBLE_EQ(1, identity_cos(0));
+}
+
+TEST(area_of_segment, PositiveValues) {
+	EXPECT_DOUBLE_EQ(1.125, area_of_segment(0, 3));
+}
+
+TEST(identity_sin_test, PositiveValues) {
+	EXPECT_DOUBLE_EQ(0, identity_sin(0));
+	EXPECT_DOUBLE_EQ(0.84147098480789639, identity_sin(1));
+}
+
+
+
+
+
+int main(int argc, char** argv) {
+	setlocale(LC_ALL, "Russian");
+	int num;
+	int N;
+	double a, b, R, side_1, side_2, side_3, side_a, side_b, height, r, heigh1, horda, x, y;
+	cout << "Калькулятор формул: " << endl;
+	cout << "Выберите число, соответсвующее необходимому разделу " << endl;
+	cout << "1 - Треугольник " << endl << "2 - Круг" << endl << "3 - Тригонометрия" << endl << "4 - Прямоугольник" << endl;
+	cin >> num;
+	switch (num) {
+	case 1:
+		cout << "Выберите число, соответсвующее необходимой формуле " << endl;
+		cout << "1 - Вычислить площадь " << endl << "2 - Вычислить длину высоты" << endl << "3 - Вычислить длину медианы" << endl;
+		cin >> N;
+		if (N == 1) {
+			double S;
+			cout << "Введите сторону треугольника: " << endl;
+			cin >> side_1;
+			cout << "Введите высоту треугольника к этой стороне: " << endl;
+			cin >> height;
+			S = area_of_triangle(side_1, height);
+			cout << "Площадь треугольника = " << S;
+		}
+		if (N == 2) {
+			double heig;
+			cout << "Введите первую сторону треугольника, не являющуюся медианой: " << endl;
+			cin >> side_1;
+			cout << "Введите вторую сторону треугольника, не являющуюся медианой: " << endl;
+			cin >> side_2;
+			cout << "Введите радиус описанной окружности: " << endl;
+			cin >> r;
+			heig = height_triangle(side_1, side_2, r);
+			cout << "Высота треугольника = " << heig;
+		}
+		if (N == 3) {
+			double med;
+			cout << "Введите первую сторону треугольника, к которой проведена искомая медиана: " << endl;
+			cin >> side_1;
+			cout << "Введите вторую сторону треугольника: " << endl;
+			cin >> side_2;
+			cout << "Введите третью сторону треугольника: " << endl;
+			cin >> side_3;
+			med = mediana(side_1, side_2, side_3);
+			cout << "Медиана треугольника = " << med;
+		}
+		else
+		{
+			cout << "Ошибка." << endl;
+			cin >> N;
+		}
+
+		break;
+	case 2:
+		cout << "Выберите число, соответсвующее необходимой формуле " << endl;
+		cout << "1 - Вычислить площадь " << endl << "2 - Вычислить длину окружности" << endl << "3 - Вычислить площадь сегмента" << endl << "4 - Вычислить радиус по координатам центра" << endl;
+		cin >> N;
+		if (N == 1) {
+			double S;
+			cout << "Введите радиус окружности: " << endl;
+			cin >> R;
+			S = area_of_circle(R);
+			cout << "Площадь окружности = " << S;
+		}
+		if (N == 2) {
+			double L;
+			cout << "Введите радиус окружности: " << endl;
+			cin >> R;
+			L = circumference(R);
+			cout << "Высота треугольника = " << L;
+		}
+		if (N == 3) {
+			double S;
+			cout << "Введите длину хорды: " << endl;
+			cin >> horda;
+			cout << "Введите длину высоты, опущенной к хорде: " << endl;
+			cin >> heigh1;
+			S = area_of_segment(horda, heigh1);
+			cout << "Площадь сегмента = " << S;
+		}
+		if (N == 4) {
+			double r;
+			cout << "Введите абциссу центра окружности: " << endl;
+			cin >> x;
+			cout << "Введите ординату центра окружности: " << endl;
+			cin >> y;
+			r = radius(x, y);
+			cout << "Радиус = " << r;
+		}
+		else
+		{
+			cout << "Ошибка." << endl;
+			cin >> N;
+		}
+
+		break;
+	case 3:
+		cout << "Выберите число, соответсвующее необходимой формуле " << endl;
+		cout << "1 - Вычислить синус суммы " << endl << "2 - Вычислить синус разницы" << endl << "3 - ТВычислить косинус суммы" << endl << "4 - Вычислить косинус разницы" << endl << "5 - Вычислить косинус по синусу" << endl << "5 - Вычислить синус по косинусу" << endl;
+		cin >> N;
+		if (N == 1) {
+			double sin_sum;
+			cout << "Введите угол а: " << endl;
+			cin >> a;
+			cout << "Введите угол b: " << endl;
+			cin >> b;
+			sin_sum = sin_of_sum(a, b);
+			cout << "Синус суммы = " << sin_sum;
+		}
+		if (N == 2) {
+			double sin_dif;
+			cout << "Введите угол а: " << endl;
+			cin >> a;
+			cout << "Введите угол b: " << endl;
+			cin >> b;
+			sin_dif = sin_of_difference(a, b);
+			cout << "Синус разницы = " << sin_dif;
+		}
+		if (N == 3) {
+			double cos_sum;
+			cout << "Введите угол а: " << endl;
+			cin >> a;
+			cout << "Введите угол b: " << endl;
+			cin >> b;
+			cos_sum = cos_of_sum(a, b);
+			cout << "Косинус суммы = " << cos_sum;
+		}
+		if (N == 4) {
+			double cos_dif;
+			cout << "Введите угол а: " << endl;
+			cin >> a;
+			cout << "Введите угол b: " << endl;
+			cin >> b;
+			cos_dif = cos_of_difference(a, b);
+			cout << "Косинус разницы = " << cos_dif;
+		}
+		if (N == 5) {
+			double cos;
+			cout << "Введите угол а: " << endl;
+			cin >> a;
+			cos = identity_cos(a);
+			cout << "Косинус  = " << cos;
+		}
+		if (N == 6) {
+			double sin;
+			cout << "Введите угол а: " << endl;
+			cin >> a;
+			sin = identity_sin(a);
+			cout << "Cинус  = " << sin;
+		}
+		else
+		{
+			cout << "Ошибка." << endl;
+			cin >> N;
+		}
+
+		break;
+	case 4:
+		cout << "Выберите число, соответсвующее необходимой формуле " << endl;
+		cout << "1 - Вычислить площадь " << endl << "2 - Вычислить диагональ" << endl;
+		cin >> N;
+		if (N == 1) {
+			double S;
+			cout << "Введите сторону а: " << endl;
+			cin >> side_a;
+			cout << "Введите сторону b: " << endl;
+			cin >> side_b;
+			S = area_of_rectangle(side_a, side_b);
+			cout << "Площадь прямоугольника = " << S;
+		}
+		if (N == 2) {
+			double d;
+			cout << "Введите сторону а: " << endl;
+			cin >> side_a;
+			cout << "Введите сторону b: " << endl;
+			cin >> side_b;
+			d = diagonal(side_a, side_b);
+			cout << "Высота треугольника = " << d;
+		}
+		else
+		{
+			cout << "Ошибка." << endl;
+			cin >> N;
+		}
+		break;
+	default:
+		cout << "Ошибка";
+	}
+	testing::InitGoogleTest(&argc, argv);
+	return RUN_ALL_TESTS();
+}
